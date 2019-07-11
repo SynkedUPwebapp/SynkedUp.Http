@@ -16,17 +16,20 @@ steps:
 - task: NuGetToolInstaller@1
 
 - task: DotNetCoreCLI@2
+  displayName: 'Test'
   inputs:
     command: 'test'
     projects: '**/*Tests.csproj'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Package'
   inputs:
     command: 'pack'
     packagesToPack: '**/EL.Http.csproj'
     versioningScheme: 'byBuildNumber'
 
 - task: NuGetCommand@2
+  displayName: 'Publish'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
