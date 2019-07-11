@@ -10,11 +10,6 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
 name: 1.0.$(Date:yyyyMMdd)$(Rev:.r)
 
 steps:
@@ -23,12 +18,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    packagesToPack: '**/EL.Http.UnitTests.csproj'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    packagesToPack: '**/EL.Http.IntegrationTests.csproj'
+    projects: '**/*Tests.csproj'
 
 - task: DotNetCoreCLI@2
   inputs:
