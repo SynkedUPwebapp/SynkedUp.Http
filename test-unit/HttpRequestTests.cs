@@ -4,21 +4,20 @@ using NUnit.Framework;
 
 namespace EL.Http.UnitTests
 {
-    [TestFixture]
     public class WhenAddingAJsonBody
     {
+        private JsonTest bodyObject;
+
+        private HttpRequest request;
+
         [SetUp]
         public void SetUp()
         {
-            request = new HttpRequest();
-            bodyObject = new JsonTest { StringProperty = Guid.NewGuid().ToString("N"), IntegerProperty = 42 };
-            request.AddJsonBody(bodyObject);
-        }
+            HttpRequestExtensions.InitializeRequestSerializer(new JsonSerializer());
 
-        [Test]
-        public void ShouldSetTheContentType()
-        {
-            Assert.That(request.Headers.GetValue("Content-Type"), Is.EqualTo("application/json"));
+            request = new HttpRequest();
+            bodyObject = new JsonTest {StringProperty = Guid.NewGuid().ToString("N"), IntegerProperty = 42};
+            request.AddJsonBody(bodyObject);
         }
 
         [Test]
@@ -30,13 +29,10 @@ namespace EL.Http.UnitTests
             Assert.That(deserializedBody.IntegerProperty, Is.EqualTo(bodyObject.IntegerProperty));
         }
 
-        private HttpRequest request;
-        private JsonTest bodyObject;
-    }
-
-    public class JsonTest
-    {
-        public string StringProperty { get; set; }
-        public int IntegerProperty { get; set; }
+        [Test]
+        public void ShouldSetTheContentType()
+        {
+            Assert.That(request.Headers.GetValue("Content-Type"), Is.EqualTo("application/json"));
+        }
     }
 }
