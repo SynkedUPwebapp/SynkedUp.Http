@@ -106,6 +106,25 @@ namespace EL.Http
             return message;
         }
 
+        private static async Task<HttpResponse> BuildResponse(HttpResponseMessage response)
+        {
+            if (response == null) throw new Exception("Unable to read web response");
+
+            return new HttpResponse((int) response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
+        }
+
+        private static ByteArrayContent GetRequestContent(HttpRequest request)
+        {
+            var byteArrayContent = new ByteArrayContent(Encoding.UTF8.GetBytes(request.Body));
+            var contentTypeHeader = request.Headers.GetAllHeaderNames().FirstOrDefault(x => x.Equals("content-type", StringComparison.CurrentCultureIgnoreCase));
+            if (contentTypeHeader != null)
+            {
+                byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue(request.Headers.GetValue(contentTypeHeader));
+            }
+
+            return byteArrayContent;
+        }
+
         private static System.Net.Http.HttpMethod GetRequestMethod(HttpMethod method)
         {
             switch (method)
@@ -123,33 +142,6 @@ namespace EL.Http
             }
         }
 
-        private static bool IsStandardHeaderName(string name)
-        {
-            if (name.Equals("accept", StringComparison.CurrentCultureIgnoreCase)) return false;
-            if (name.Equals("content-type", StringComparison.CurrentCultureIgnoreCase)) return false;
-
-            return true;
-        }
-
-        private static ByteArrayContent GetRequestContent(HttpRequest request)
-        {
-            var byteArrayContent = new ByteArrayContent(Encoding.UTF8.GetBytes(request.Body));
-            var contentTypeHeader = request.Headers.GetAllHeaderNames().FirstOrDefault(x => x.Equals("content-type", StringComparison.CurrentCultureIgnoreCase));
-            if (contentTypeHeader != null)
-            {
-                byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue(request.Headers.GetValue(contentTypeHeader));
-            }
-
-            return byteArrayContent;
-        }
-
-        private static async Task<HttpResponse> BuildResponse(HttpResponseMessage response)
-        {
-            if (response == null) throw new Exception("Unable to read web response");
-
-            return new HttpResponse((int) response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
-        }
-
         private static HttpHeaders GetResponseHeaders(HttpResponseMessage response)
         {
             var headers = new HttpHeaders();
@@ -157,6 +149,14 @@ namespace EL.Http
             headers.AddAll(response.Headers);
             headers.AddAll(response.Content.Headers);
             return headers;
+        }
+
+        private static bool IsStandardHeaderName(string name)
+        {
+            if (name.Equals("accept", StringComparison.CurrentCultureIgnoreCase)) return false;
+            if (name.Equals("content-type", StringComparison.CurrentCultureIgnoreCase)) return false;
+
+            return true;
         }
     }
 }

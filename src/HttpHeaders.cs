@@ -19,31 +19,14 @@ namespace EL.Http
             return this;
         }
 
-        internal void AddAll(IEnumerable<KeyValuePair<string, IEnumerable<string>>> headerCollection)
-        {
-            foreach (var header in headerCollection)
-            {
-                foreach (var value in header.Value)
-                {
-                    Add(header.Key, value);
-                }
-            }
-        }
-
-        public string GetValue(string name)
-        {
-            var lowerName = name.ToLowerInvariant();
-            if (Exists(lowerName))
-            {
-                return headers[lowerName].First();
-            }
-
-            return string.Empty;
-        }
-
         public bool Exists(string name)
         {
             return headers.ContainsKey(name.ToLowerInvariant());
+        }
+
+        public IList<string> GetAllHeaderNames()
+        {
+            return headers.Keys.ToList();
         }
 
         public IList<string> GetAllValues(string name)
@@ -57,9 +40,26 @@ namespace EL.Http
             return new List<string>();
         }
 
-        public IList<string> GetAllHeaderNames()
+        public string GetValue(string name)
         {
-            return headers.Keys.ToList();
+            var lowerName = name.ToLowerInvariant();
+            if (Exists(lowerName))
+            {
+                return headers[lowerName].First();
+            }
+
+            return string.Empty;
+        }
+
+        internal void AddAll(IEnumerable<KeyValuePair<string, IEnumerable<string>>> headerCollection)
+        {
+            foreach (var header in headerCollection)
+            {
+                foreach (var value in header.Value)
+                {
+                    Add(header.Key, value);
+                }
+            }
         }
     }
 }

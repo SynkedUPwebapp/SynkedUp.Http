@@ -4,17 +4,18 @@ namespace EL.Http.UnitTests
 {
     public class WhenAddingAHeader
     {
+        private const string HeaderName = "name";
+        private const string HeaderValue = "value";
+
+        private HttpHeaders classUnderTest;
+        private HttpHeaders result;
+
         [SetUp]
         public void SetUp()
         {
             classUnderTest = new HttpHeaders();
             result = classUnderTest.Add(HeaderName, HeaderValue);
         }
-
-        private HttpHeaders classUnderTest;
-        private HttpHeaders result;
-        private const string HeaderName = "name";
-        private const string HeaderValue = "value";
 
         [Test]
         public void ShouldBeChainable()
@@ -61,13 +62,13 @@ namespace EL.Http.UnitTests
 
     public class WhenAccessingAHeaderThatDoesNotExist
     {
+        private HttpHeaders classUnderTest;
+
         [SetUp]
         public void SetUp()
         {
             classUnderTest = new HttpHeaders();
         }
-
-        private HttpHeaders classUnderTest;
 
         [Test]
         public void ShouldHaveNoHeaders()
