@@ -5,7 +5,7 @@ namespace EL.Http
 {
     public class HttpHeaders
     {
-        readonly IDictionary<string, IList<string>> headers = new Dictionary<string, IList<string>>();
+        private readonly IDictionary<string, IList<string>> headers = new Dictionary<string, IList<string>>();
 
         public HttpHeaders Add(string name, string value)
         {
@@ -34,7 +34,9 @@ namespace EL.Http
         {
             var lowerName = name.ToLowerInvariant();
             if (Exists(lowerName))
+            {
                 return headers[lowerName].First();
+            }
 
             return string.Empty;
         }
@@ -48,7 +50,9 @@ namespace EL.Http
         {
             var lowerName = name.ToLowerInvariant();
             if (Exists(lowerName))
+            {
                 return headers[lowerName];
+            }
 
             return new List<string>();
         }

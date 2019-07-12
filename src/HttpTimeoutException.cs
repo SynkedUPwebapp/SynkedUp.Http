@@ -4,6 +4,5 @@ namespace EL.Http
 {
     public class HttpTimeoutException : Exception
     {
-
     }
 }

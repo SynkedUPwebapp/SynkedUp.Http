@@ -2,15 +2,15 @@
 {
     public class HttpResponse
     {
-        public int StatusCode { get; private set; }
-        public HttpHeaders Headers { get; private set; }
-        public string Body { get; private set; }
-
         public HttpResponse(int statusCode, HttpHeaders headers, string body)
         {
             StatusCode = statusCode;
             Headers = headers;
             Body = body;
         }
+
+        public int StatusCode { get; }
+        public HttpHeaders Headers { get; }
+        public string Body { get; }
     }
 }

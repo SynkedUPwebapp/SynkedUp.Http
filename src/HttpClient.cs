@@ -18,18 +18,14 @@ namespace EL.Http
     {
         private readonly System.Net.Http.HttpClient client;
 
-        public HttpClient() : this(null)
+        public HttpClient() : this(options: null)
         {
         }
 
         public HttpClient(HttpClientOptions options)
         {
             if (options == null) options = new HttpClientOptions();
-            var handler = new HttpClientHandler
-            {
-                UseCookies = false,
-                AllowAutoRedirect = options.AllowAutoRedirect
-            };
+            var handler = new HttpClientHandler {UseCookies = false, AllowAutoRedirect = options.AllowAutoRedirect};
             client = new System.Net.Http.HttpClient(handler);
             if (options.DefaultTimeoutMilliseconds > 0)
             {
@@ -37,9 +33,14 @@ namespace EL.Http
             }
         }
 
+        public void Dispose()
+        {
+            client?.Dispose();
+        }
+
         public HttpResponse Execute(HttpRequest request)
         {
-            return Execute(request, 0);
+            return Execute(request, timeoutMilliseconds: 0);
         }
 
         public HttpResponse Execute(HttpRequest request, int timeoutMilliseconds)
@@ -64,17 +65,17 @@ namespace EL.Http
                 {
                     throw new HttpTimeoutException();
                 }
+
                 throw;
             }
         }
 
         public async Task<HttpResponse> ExecuteAsync(HttpRequest request)
         {
-
             var requestMessage = BuildRequestMessage(request);
             try
             {
-                HttpResponseMessage response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+                var response = await client.SendAsync(requestMessage).ConfigureAwait(continueOnCapturedContext: false);
                 return await BuildResponse(response);
             }
             catch (TaskCanceledException)
@@ -96,10 +97,12 @@ namespace EL.Http
             {
                 message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(request.Headers.GetValue(acceptHeader)));
             }
+
             if (request.Body != null)
             {
                 message.Content = GetRequestContent(request);
             }
+
             return message;
         }
 
@@ -140,25 +143,20 @@ namespace EL.Http
             return byteArrayContent;
         }
 
-        static async Task<HttpResponse> BuildResponse(HttpResponseMessage response)
+        private static async Task<HttpResponse> BuildResponse(HttpResponseMessage response)
         {
             if (response == null) throw new Exception("Unable to read web response");
 
-            return new HttpResponse((int)response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
+            return new HttpResponse((int) response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
         }
 
-        static HttpHeaders GetResponseHeaders(HttpResponseMessage response)
+        private static HttpHeaders GetResponseHeaders(HttpResponseMessage response)
         {
             var headers = new HttpHeaders();
 
             headers.AddAll(response.Headers);
             headers.AddAll(response.Content.Headers);
             return headers;
-        }
-
-        public void Dispose()
-        {
-            client?.Dispose();
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace EL.Http.UnitTests
 {
-    [TestFixture]
     public class WhenAddingAHeader
     {
         [SetUp]
@@ -12,10 +11,15 @@ namespace EL.Http.UnitTests
             result = classUnderTest.Add(HeaderName, HeaderValue);
         }
 
+        private HttpHeaders classUnderTest;
+        private HttpHeaders result;
+        private const string HeaderName = "name";
+        private const string HeaderValue = "value";
+
         [Test]
-        public void ShouldHaveStoredTheValue()
+        public void ShouldBeChainable()
         {
-            Assert.That(classUnderTest.GetValue(HeaderName), Is.EqualTo(HeaderValue));
+            Assert.That(result, Is.EqualTo(classUnderTest));
         }
 
         [Test]
@@ -25,15 +29,15 @@ namespace EL.Http.UnitTests
         }
 
         [Test]
-        public void ShouldReturnAListWithOnlyOneValue()
+        public void ShouldHaveOneHeader()
         {
-            Assert.That(classUnderTest.GetAllValues(HeaderName).Count, Is.EqualTo(1));
+            Assert.That(classUnderTest.GetAllHeaderNames().Count, Is.EqualTo(expected: 1));
         }
 
         [Test]
-        public void ShouldReturnAListWithTheValue()
+        public void ShouldHaveStoredTheValue()
         {
-            Assert.That(classUnderTest.GetAllValues(HeaderName), Does.Contain(HeaderValue));
+            Assert.That(classUnderTest.GetValue(HeaderName), Is.EqualTo(HeaderValue));
         }
 
         [Test]
@@ -43,24 +47,18 @@ namespace EL.Http.UnitTests
         }
 
         [Test]
-        public void ShouldHaveOneHeader()
+        public void ShouldReturnAListWithOnlyOneValue()
         {
-            Assert.That(classUnderTest.GetAllHeaderNames().Count, Is.EqualTo(1));
+            Assert.That(classUnderTest.GetAllValues(HeaderName).Count, Is.EqualTo(expected: 1));
         }
 
         [Test]
-        public void ShouldBeChainable()
+        public void ShouldReturnAListWithTheValue()
         {
-            Assert.That(result, Is.EqualTo(classUnderTest));
+            Assert.That(classUnderTest.GetAllValues(HeaderName), Does.Contain(HeaderValue));
         }
-
-        private HttpHeaders classUnderTest;
-        private HttpHeaders result;
-        private const string HeaderName = "name";
-        private const string HeaderValue = "value";
     }
 
-    [TestFixture]
     public class WhenAccessingAHeaderThatDoesNotExist
     {
         [SetUp]
@@ -69,10 +67,12 @@ namespace EL.Http.UnitTests
             classUnderTest = new HttpHeaders();
         }
 
+        private HttpHeaders classUnderTest;
+
         [Test]
-        public void ShouldReturnAnEmptyString()
+        public void ShouldHaveNoHeaders()
         {
-            Assert.That(classUnderTest.GetValue("does-not-exist"), Is.Empty);
+            Assert.That(classUnderTest.GetAllHeaderNames().Count, Is.EqualTo(expected: 0));
         }
 
         [Test]
@@ -84,15 +84,13 @@ namespace EL.Http.UnitTests
         [Test]
         public void ShouldReturnAnEmptyList()
         {
-            Assert.That(classUnderTest.GetAllValues("does-not-exist").Count, Is.EqualTo(0));
+            Assert.That(classUnderTest.GetAllValues("does-not-exist").Count, Is.EqualTo(expected: 0));
         }
 
         [Test]
-        public void ShouldHaveNoHeaders()
+        public void ShouldReturnAnEmptyString()
         {
-            Assert.That(classUnderTest.GetAllHeaderNames().Count, Is.EqualTo(0));
+            Assert.That(classUnderTest.GetValue("does-not-exist"), Is.Empty);
         }
-
-        private HttpHeaders classUnderTest;
     }
 }

@@ -9,7 +9,7 @@ namespace EL.Http
 
         public bool IsResponseSuccessful()
         {
-            return (int)StatusCode >= 200 && (int)StatusCode < 300;
+            return (int) StatusCode >= 200 && (int) StatusCode < 300;
         }
     }
 }
