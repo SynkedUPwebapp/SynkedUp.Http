@@ -230,6 +230,7 @@ namespace EL.Http.IntegrationTests
             Assert.That(response.Body, Does.Contain("custom user agent"));
         }
 
+        [Ignore("This httpbin.org endpoint no longer works properly")]
         [Test]
         public void WhenTemporaryRedirectShouldBeFollowed()
         {
@@ -245,6 +246,7 @@ namespace EL.Http.IntegrationTests
             Assert.That(response.Headers.GetValue("location"), Is.Empty);
         }
 
+        [Ignore("This httpbin.org endpoint no longer works properly")]
         [Test]
         public void WhenTemporaryRedirectShouldNotBeFollowed()
         {
