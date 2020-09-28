@@ -1,6 +1,9 @@
-﻿namespace EL.Http
+﻿using System.Net.Http;
+using System.Text;
+
+namespace EL.Http
 {
-    public class HttpRequest
+    public class HttpRequest : IHttpRequest
     {
         public HttpRequest()
         {
@@ -11,5 +14,9 @@
         public string Url { get; set; }
         public HttpHeaders Headers { get; set; }
         public string Body { get; set; }
+
+        public bool HasContent() => Body != null;
+
+        public HttpContent GetContent() => new ByteArrayContent(Encoding.UTF8.GetBytes(Body));
     }
 }

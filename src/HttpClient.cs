@@ -2,16 +2,15 @@
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EL.Http
 {
     public interface IHttpClient
     {
-        HttpResponse Execute(HttpRequest request);
-        HttpResponse Execute(HttpRequest request, int timeoutMilliseconds);
-        Task<HttpResponse> ExecuteAsync(HttpRequest request);
+        HttpResponse Execute(IHttpRequest request);
+        HttpResponse Execute(IHttpRequest request, int timeoutMilliseconds);
+        Task<HttpResponse> ExecuteAsync(IHttpRequest request);
     }
 
     public class HttpClient : IHttpClient, IDisposable
@@ -38,12 +37,12 @@ namespace EL.Http
             client?.Dispose();
         }
 
-        public HttpResponse Execute(HttpRequest request)
+        public HttpResponse Execute(IHttpRequest request)
         {
             return Execute(request, timeoutMilliseconds: 0);
         }
 
-        public HttpResponse Execute(HttpRequest request, int timeoutMilliseconds)
+        public HttpResponse Execute(IHttpRequest request, int timeoutMilliseconds)
         {
             var task = ExecuteAsync(request);
             if (timeoutMilliseconds > 0)
@@ -70,7 +69,7 @@ namespace EL.Http
             }
         }
 
-        public async Task<HttpResponse> ExecuteAsync(HttpRequest request)
+        public async Task<HttpResponse> ExecuteAsync(IHttpRequest request)
         {
             var requestMessage = BuildRequestMessage(request);
             try
@@ -84,7 +83,7 @@ namespace EL.Http
             }
         }
 
-        private HttpRequestMessage BuildRequestMessage(HttpRequest request)
+        private HttpRequestMessage BuildRequestMessage(IHttpRequest request)
         {
             var message = new HttpRequestMessage(GetRequestMethod(request.Method), request.Url);
             foreach (var headerName in request.Headers.GetAllHeaderNames().Where(IsStandardHeaderName))
@@ -98,9 +97,9 @@ namespace EL.Http
                 message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(request.Headers.GetValue(acceptHeader)));
             }
 
-            if (request.Body != null)
+            if (request.HasContent())
             {
-                message.Content = GetRequestContent(request);
+                message.Content = GetContent(request);
             }
 
             return message;
@@ -113,16 +112,16 @@ namespace EL.Http
             return new HttpResponse((int) response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
         }
 
-        private static ByteArrayContent GetRequestContent(HttpRequest request)
+        private static HttpContent GetContent(IHttpRequest request)
         {
-            var byteArrayContent = new ByteArrayContent(Encoding.UTF8.GetBytes(request.Body));
+            var content = request.GetContent();
             var contentTypeHeader = request.Headers.GetAllHeaderNames().FirstOrDefault(x => x.Equals("content-type", StringComparison.CurrentCultureIgnoreCase));
             if (contentTypeHeader != null)
             {
-                byteArrayContent.Headers.ContentType = new MediaTypeHeaderValue(request.Headers.GetValue(contentTypeHeader));
+                content.Headers.ContentType = new MediaTypeHeaderValue(request.Headers.GetValue(contentTypeHeader));
             }
 
-            return byteArrayContent;
+            return content;
         }
 
         private static System.Net.Http.HttpMethod GetRequestMethod(HttpMethod method)

@@ -45,3 +45,10 @@ var response = httpClient.Execute(request);
 ```
 
 The client also exposes an `ExecuteAsync` method.
+
+## Version History
+### 2.0
+- Changed version schema from 4 parts to 3 parts (dropped the date in the 3rd part)
+- Changed the signature of `ExecuteAsync` to accept `IHttpRequest` instead of the concrete type `HttpRequest`. All existing code should just work, no changes required.
+- Added `StreamHttpRequest` for requests with a binary body
+- Added extension method `AddBasicAuthentication(string username, string password)` on `IHttpRequest`

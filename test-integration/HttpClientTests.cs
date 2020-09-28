@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -137,6 +139,22 @@ namespace EL.Http.IntegrationTests
             Assert.That(response.StatusCode, Is.EqualTo(expected: 200));
             var responseData = GetHttpBinResponse(response);
             Assert.That(responseData.Data, Is.EqualTo(request.Body));
+        }
+
+        [Test]
+        public void WhenPostingWithJsonAsAStream()
+        {
+            var body = "{\"username\":\"standard-user\", \"password\":\"testing1\"}";
+            var asStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
+            var request = new StreamHttpRequest{Url = "http://httpbin.org/post", Method = HttpMethod.POST, Body = asStream };
+
+            request.Headers.Add("Content-Type", "application/json");
+
+            var response = client.Execute(request);
+
+            Assert.That(response.StatusCode, Is.EqualTo(expected: 200));
+            var responseData = GetHttpBinResponse(response);
+            Assert.That(responseData.Data, Is.EqualTo(body));
         }
 
         [Test]

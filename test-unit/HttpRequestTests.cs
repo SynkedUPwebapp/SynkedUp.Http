@@ -35,4 +35,29 @@ namespace EL.Http.UnitTests
             Assert.That(request.Headers.GetValue("Content-Type"), Is.EqualTo("application/json"));
         }
     }
+
+    public class WhenAddingBasicAuthentication
+    {
+        private const string Authorization = "Authorization";
+        private IHttpRequest request;
+
+        [SetUp]
+        public void SetUp()
+        {
+            request = new HttpRequest();
+            request.AddBasicAuthentication("username", "password");
+        }
+        
+        [Test]
+        public void HasAuthorizationHeader()
+        {
+            Assert.That(request.Headers.Exists(Authorization), Is.True);
+        }
+
+        [Test]
+        public void AuthorizationHeaderHasCorrectValue()
+        {
+            Assert.That(request.Headers.GetValue(Authorization), Is.EqualTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ="));
+        }
+    }
 }
