@@ -12,12 +12,14 @@ _(But at least it is much better than the old .NET Framework http requests which
 
 ## Configuration
 
-To use this library, you only need an `EL.Http.HttpClient` instance.
-There is no required DI configuration, though you may wish to specify an `AddSingleton<IHttpClient, HttpClient>()`.
-As with the underlying `System.Net.Http.HttpClient` you may get better performance by reusing the client rather than creating new ones each time,
-though separate instances may be useful if you need a separate connection pool.
+Call `EL.Http.DependencyInjectionConfig.ConfigureServices(services);` to configure DI.
+This will make the `IHttpClient` available as a singleton because Microsoft recommends
+reusing the underlying `System.Net.Http.HttpClient` for connection pooling.
+The default `HttpCLientOptions` are used.
 
-When creating the `HttpClient`, you may optionally provide an `HttpClientOptions` instance to specify additional options.
+If you have a need to have separate instances of the `EL.Http.HttpClient`,
+or if you wish to provide specific `HttpClientOptions`,
+you can create a separate instance or override the DI registration.
 
 ## Usage
 
@@ -47,6 +49,14 @@ var response = httpClient.Execute(request);
 The client also exposes an `ExecuteAsync` method.
 
 ## Version History
+
+### 3.0
+- Updated to netcoreapp3.1
+- Added `DependencyInjectionConfig` class for configuring DI
+- Added default JSON support which removes the need for an `IRequestSerializer`
+- Added convenience extension method for JSON deserialization
+- Renamed directory structure to match project names
+
 ### 2.0
 - Changed version schema from 4 parts to 3 parts (dropped the date in the 3rd part)
 - Changed the signature of `ExecuteAsync` to accept `IHttpRequest` instead of the concrete type `HttpRequest`. All existing code should just work, no changes required.
