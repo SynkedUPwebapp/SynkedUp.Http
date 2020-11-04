@@ -1,5 +1,5 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json;
 using NUnit.Framework;
 
 namespace EL.Http.UnitTests
@@ -13,8 +13,6 @@ namespace EL.Http.UnitTests
         [SetUp]
         public void SetUp()
         {
-            HttpRequestExtensions.InitializeRequestSerializer(new JsonSerializer());
-
             request = new HttpRequest();
             bodyObject = new JsonTest {StringProperty = Guid.NewGuid().ToString("N"), IntegerProperty = 42};
             request.AddJsonBody(bodyObject);
@@ -23,7 +21,10 @@ namespace EL.Http.UnitTests
         [Test]
         public void ShouldJsonSerializeTheBody()
         {
-            var deserializedBody = JsonConvert.DeserializeObject<JsonTest>(request.Body);
+            var deserializedBody = JsonSerializer.Deserialize<JsonTest>(request.Body, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
             Assert.That(deserializedBody, Is.Not.Null);
             Assert.That(deserializedBody.StringProperty, Is.EqualTo(bodyObject.StringProperty));
             Assert.That(deserializedBody.IntegerProperty, Is.EqualTo(bodyObject.IntegerProperty));

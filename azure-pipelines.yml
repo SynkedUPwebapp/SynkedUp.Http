@@ -10,7 +10,7 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-name: 2.0$(Rev:.r)
+name: 3.0$(Rev:.r)
 
 steps:
 - task: NuGetToolInstaller@1
