@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\EL.Http.csproj" />
+    <ProjectReference Include="..\EL.Http\EL.Http.csproj" />
   </ItemGroup>
 
 </Project>
