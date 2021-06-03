@@ -17,12 +17,12 @@ _(But at least it is much better than the old .NET Framework http requests which
 
 ## Configuration
 
-Call `EL.Http.DependencyInjectionConfig.ConfigureServices(services);` to configure DI.
+Call `Emmersion.Http.DependencyInjectionConfig.ConfigureServices(services);` to configure DI.
 This will make the `IHttpClient` available as a singleton because Microsoft recommends
 reusing the underlying `System.Net.Http.HttpClient` for connection pooling.
 The default `HttpCLientOptions` are used.
 
-If you have a need to have separate instances of the `EL.Http.HttpClient`,
+If you have a need to have separate instances of the `Emmersion.Http.HttpClient`,
 or if you wish to provide specific `HttpClientOptions`,
 you can create a separate instance or override the DI registration.
 
