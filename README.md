@@ -2,6 +2,11 @@
 
 The purpose of this library is to provide an easily-testable abstraction for HTTP that does a good job of representing an actual HTTP request.
 
+This has been [open sourced](https://github.com/emmersion/engineering-at-emmersion#open-source)
+under the [MIT License](./LICENSE).
+
+## Why?
+
 Unfortunately, the built-in `System.Net.Http.HttpClient` class of the .NET Core library does some really annoying things like:
 * Requiring special handling of certain headers, such as `accept` and `content-type`
 * Dividing response headers into `.Headers` and `.Content.Headers`
