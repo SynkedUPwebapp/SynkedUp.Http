@@ -51,7 +51,11 @@ var request = new HttpRequest
 var response = httpClient.Execute(request);
 ```
 
-The client also exposes an `ExecuteAsync` method.
+The client also exposes a non-blocking `ExecuteAsync` method.
+
+`StreamHttpRequest` exists if you wish to send a request with the body as a stream.
+
+When working with Json, there are `AddJsonBody` and `DeserializeJsonBody` convenience methods.
 
 ## Version History
 
