@@ -9,6 +9,12 @@
     <WarningsAsErrors />
     <NoWarn>1701;1702;1591</NoWarn>
     <LangVersion>7.0</LangVersion>
+    <Company>Emmersion</Company>
+    <Description>A library for making testable HTTP requests.</Description>
+    <Copyright>Copyright (c) 2021 Emmersion</Copyright>
+    <PackageLicenseUrl>https://github.com/emmersion/Emmersion.Http/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/emmersion/Emmersion.Http</PackageProjectUrl>
+    <PackageTags>http;testing</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
