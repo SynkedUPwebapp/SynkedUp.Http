@@ -248,11 +248,10 @@ namespace Emmersion.Http.IntegrationTests
             Assert.That(response.Body, Does.Contain("custom user agent"));
         }
 
-        [Ignore("This httpbin.org endpoint no longer works properly; see https://github.com/postmanlabs/httpbin/issues/617")]
         [Test]
         public void WhenTemporaryRedirectShouldBeFollowed()
         {
-            var request = new HttpRequest {Url = "http://httpbin.org/redirect-to?url=http://github.com"};
+            var request = new HttpRequest {Url = "https://httpbingo.org/redirect-to?url=https://github.com"};
             client = new HttpClient(new HttpClientOptions {AllowAutoRedirect = true});
 
             var response = client.Execute(request);
@@ -264,11 +263,10 @@ namespace Emmersion.Http.IntegrationTests
             Assert.That(response.Headers.GetValue("location"), Is.Empty);
         }
 
-        [Ignore("This httpbin.org endpoint no longer works properly; see https://github.com/postmanlabs/httpbin/issues/617")]
         [Test]
         public void WhenTemporaryRedirectShouldNotBeFollowed()
         {
-            var request = new HttpRequest {Url = "http://httpbin.org/redirect-to?url=http://github.com"};
+            var request = new HttpRequest {Url = "https://httpbingo.org/redirect-to?url=https://github.com"};
             client = new HttpClient(new HttpClientOptions {AllowAutoRedirect = false});
 
             var response = client.Execute(request);
@@ -277,7 +275,7 @@ namespace Emmersion.Http.IntegrationTests
             Assert.That(response.Body, Is.Empty);
             Assert.That(response.Headers.GetAllHeaderNames().Count, Is.GreaterThan(expected: 0));
             Assert.That(response.Headers.GetValue("server"), Is.Not.EqualTo("github.com").IgnoreCase);
-            Assert.That(response.Headers.GetValue("location"), Is.EqualTo("http://github.com/").IgnoreCase);
+            Assert.That(response.Headers.GetValue("location"), Is.EqualTo("https://github.com/").IgnoreCase);
         }
     }
 
