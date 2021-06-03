@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     public static class HttpRequestExtensions
     {

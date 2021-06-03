@@ -1,4 +1,4 @@
-namespace EL.Http
+namespace Emmersion.Http
 {
     public static class HttpResponseExtensions
     {

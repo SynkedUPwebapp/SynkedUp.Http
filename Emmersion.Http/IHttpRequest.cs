@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     public interface IHttpRequest
     {

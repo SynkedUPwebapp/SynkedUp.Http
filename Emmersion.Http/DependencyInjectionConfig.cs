@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     public class DependencyInjectionConfig
     {

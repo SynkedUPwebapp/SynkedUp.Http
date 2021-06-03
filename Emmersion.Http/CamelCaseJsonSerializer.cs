@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     internal class CamelCaseJsonSerializer
     {

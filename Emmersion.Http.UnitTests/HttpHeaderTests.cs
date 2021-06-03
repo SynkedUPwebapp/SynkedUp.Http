@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace EL.Http.UnitTests
+namespace Emmersion.Http.UnitTests
 {
     public class WhenAddingAHeader
     {

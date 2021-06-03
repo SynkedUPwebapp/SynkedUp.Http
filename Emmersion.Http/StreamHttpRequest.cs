@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     public class StreamHttpRequest: IHttpRequest
     {

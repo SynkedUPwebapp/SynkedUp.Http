@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace EL.Http.IntegrationTests
+namespace Emmersion.Http.IntegrationTests
 {
     [TestFixture]
     public class HttpClientTests

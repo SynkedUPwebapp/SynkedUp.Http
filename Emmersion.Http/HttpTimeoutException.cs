@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     public class HttpTimeoutException : Exception
     {

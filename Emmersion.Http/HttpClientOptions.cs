@@ -1,4 +1,4 @@
-﻿namespace EL.Http
+﻿namespace Emmersion.Http
 {
     public class HttpClientOptions
     {

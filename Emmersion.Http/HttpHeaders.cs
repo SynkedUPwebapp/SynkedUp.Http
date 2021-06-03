@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EL.Http
+namespace Emmersion.Http
 {
     public class HttpHeaders
     {

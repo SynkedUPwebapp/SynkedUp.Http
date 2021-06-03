@@ -1,4 +1,4 @@
-﻿namespace EL.Http.UnitTests
+﻿namespace Emmersion.Http.UnitTests
 {
     public class JsonTest
     {

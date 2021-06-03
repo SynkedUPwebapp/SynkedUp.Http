@@ -2,7 +2,7 @@
 using System.Text.Json;
 using NUnit.Framework;
 
-namespace EL.Http.UnitTests
+namespace Emmersion.Http.UnitTests
 {
     public class WhenAddingAJsonBody
     {
