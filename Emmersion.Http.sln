@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EL.Http", "EL.Http\EL.Http.csproj", "{9EF29D21-5F09-4F79-898C-2B69BF72EF50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emmersion.Http", "Emmersion.Http\Emmersion.Http.csproj", "{9EF29D21-5F09-4F79-898C-2B69BF72EF50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EL.Http.IntegrationTests", "EL.Http.IntegrationTests\EL.Http.IntegrationTests.csproj", "{83F9D3FB-1C50-498C-9333-91EED2C44E75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emmersion.Http.IntegrationTests", "Emmersion.Http.IntegrationTests\Emmersion.Http.IntegrationTests.csproj", "{83F9D3FB-1C50-498C-9333-91EED2C44E75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EL.Http.UnitTests", "EL.Http.UnitTests\EL.Http.UnitTests.csproj", "{FEE3433B-4BB1-493B-BEC9-D52D03C89ACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emmersion.Http.UnitTests", "Emmersion.Http.UnitTests\Emmersion.Http.UnitTests.csproj", "{FEE3433B-4BB1-493B-BEC9-D52D03C89ACF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
