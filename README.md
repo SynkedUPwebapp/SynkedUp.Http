@@ -99,7 +99,7 @@ And because the request and response model the HTTP request, it should be simple
 ## Version History
 
 ### 4.0
-- Changed namespace from EL. to Emmersion.
+- Changed namespace from `EL.` to `Emmersion.`
 
 ### 3.0
 - Updated to netcoreapp3.1
