@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Emmersion.Http
 {
@@ -15,6 +18,12 @@ namespace Emmersion.Http
         {
             var encodedCredentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"));
             request.Headers.Add("Authorization", $"Basic {encodedCredentials}");
+        }
+        
+        public static async Task AddFormUrlEncodedBody(this HttpRequest request, Dictionary<string, string> bodyObject)
+        {
+            request.Body = await new FormUrlEncodedContent(bodyObject).ReadAsStringAsync();
+            request.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
         }
     }
 }
