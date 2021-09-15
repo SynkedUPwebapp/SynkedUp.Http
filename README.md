@@ -61,7 +61,16 @@ If the request times out, an `HttpTimeoutException` will be thrown.
 
 `StreamHttpRequest` exists if you wish to send a request with the body as a stream.
 
-When working with Json, there are `AddJsonBody` and `DeserializeJsonBody` convenience methods.
+### Extension Methods
+
+There are a few extension methods provided for convenience. For `HttpRequest`:
+* `AddBasicAuthentication` - sets the `Authorization: Basic ...` header and base64 encodes the given username:password.
+* `AddJsonBody` - sets the `Content-Type: application/json` header and serializes the provided object into the body as JSON.
+* `AddFormUrlEncodedBody` - sets the `Content-Type: application/x-www-form-urlencoded` header and encodes the provided data into the body (just as web browsers do for posting forms).
+
+The `HttpResponse` object has:
+* `DeserializeJsonBody` - deserializes the response body from JSON into the type you provide.
+
 
 ## Testing
 
