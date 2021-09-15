@@ -107,6 +107,10 @@ And because the request and response model the HTTP request, it should be simple
 
 ## Version History
 
+### 5.0
+- Reverted back to netstandard2.0 for better compatibility
+- Added `AddFormUrlEncodedBody` extension method
+
 ### 4.0
 - Changed namespace from `EL.` to `Emmersion.`
 
