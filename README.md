@@ -107,6 +107,9 @@ And because the request and response model the HTTP request, it should be simple
 
 ## Version History
 
+### 6.0
+- Updated to netstandard2.1 to support the PATCH HTTP verb
+
 ### 5.0
 - Reverted back to netstandard2.0 for better compatibility
 - Added `AddFormUrlEncodedBody` extension method

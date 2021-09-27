@@ -140,6 +140,18 @@ namespace Emmersion.Http.IntegrationTests
             var responseData = GetHttpBinResponse(response);
             Assert.That(responseData.Data, Is.EqualTo(request.Body));
         }
+        
+        [Test]
+        public void WhenPerformingSimplePatchingWithJson()
+        {
+            var request = new HttpRequest {Url = "http://httpbin.org/patch", Method = HttpMethod.PATCH, Body = "{\"username\":\"standard-user\", \"password\":\"testing1\"}"};
+
+            var response = client.Execute(request);
+
+            Assert.That(response.StatusCode, Is.EqualTo(expected: 200));
+            var responseData = GetHttpBinResponse(response);
+            Assert.That(responseData.Data, Is.EqualTo(request.Body));
+        }
 
         [Test]
         public void WhenPostingWithJsonAsAStream()

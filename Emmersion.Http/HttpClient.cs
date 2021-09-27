@@ -136,6 +136,8 @@ namespace Emmersion.Http
                     return System.Net.Http.HttpMethod.Put;
                 case HttpMethod.DELETE:
                     return System.Net.Http.HttpMethod.Delete;
+                case HttpMethod.PATCH:
+                    return System.Net.Http.HttpMethod.Patch;
                 default:
                     throw new ArgumentException($"Unsupported HTTP method: '{method}'");
             }
