@@ -24,7 +24,7 @@ namespace Emmersion.Http
         public HttpClient(HttpClientOptions options)
         {
             if (options == null) options = new HttpClientOptions();
-            var handler = new HttpClientHandler {UseCookies = false, AllowAutoRedirect = options.AllowAutoRedirect};
+            var handler = new HttpClientHandler { UseCookies = false, AllowAutoRedirect = options.AllowAutoRedirect };
             client = new System.Net.Http.HttpClient(handler);
             if (options.DefaultTimeoutMilliseconds > 0)
             {
@@ -83,6 +83,20 @@ namespace Emmersion.Http
             }
         }
 
+        public async Task<HttpStreamResponse> ExecuteWithStreamResponseAsync(IHttpRequest request)
+        {
+            var requestMessage = BuildRequestMessage(request);
+            try
+            {
+                var response = await client.SendAsync(requestMessage).ConfigureAwait(continueOnCapturedContext: false);
+                return await BuildStreamResponse(response);
+            }
+            catch (TaskCanceledException)
+            {
+                throw new HttpTimeoutException();
+            }
+        }
+
         private HttpRequestMessage BuildRequestMessage(IHttpRequest request)
         {
             var message = new HttpRequestMessage(GetRequestMethod(request.Method), request.Url);
@@ -109,8 +123,15 @@ namespace Emmersion.Http
         {
             if (response == null) throw new Exception("Unable to read web response");
 
-            return new HttpResponse((int) response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
+            return new HttpResponse((int)response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
         }
+
+        private static async Task<HttpStreamResponse> BuildStreamResponse(HttpResponseMessage response)
+        {
+            if (response == null) throw new Exception("Unable to read web response");
+
+            return new HttpStreamResponse((int)response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStreamAsync());
+        }        
 
         private static HttpContent GetContent(IHttpRequest request)
         {

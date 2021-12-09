@@ -61,6 +61,8 @@ If the request times out, an `HttpTimeoutException` will be thrown.
 
 `StreamHttpRequest` exists if you wish to send a request with the body as a stream.
 
+If you want to receive the response content as a stream rather than a string, use `ExecuteWithStreamResponseAsync()`.
+
 ### Extension Methods
 
 There are a few extension methods provided for convenience. For `HttpRequest`:
