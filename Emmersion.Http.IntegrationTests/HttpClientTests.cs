@@ -142,6 +142,21 @@ namespace Emmersion.Http.IntegrationTests
         }
 
         [Test]
+        public void WhenAddingJsonBodyToAPost()
+        {
+            var request = new HttpRequest { Url = "http://httpbin.org/post", Method = HttpMethod.POST };
+            request.AddJsonBody(new {PropertyOne = "hello", World = true});
+            var response = client.Execute(request);
+            
+            Assert.That(response.StatusCode, Is.EqualTo(200));
+            var rawResponseBody = response.Body;
+            Assert.That(rawResponseBody, Does.Contain("propertyOne"));
+            Assert.That(rawResponseBody, Does.Contain("world"));
+            var deserialized = response.DeserializeJsonBody<HttpBinPostResponse>();
+            Assert.That(deserialized.Data, Does.Contain("propertyOne"));
+        }
+
+        [Test]
         public void WhenPerformingSimplePatchingWithJson()
         {
             var request = new HttpRequest { Url = "http://httpbin.org/patch", Method = HttpMethod.PATCH, Body = "{\"username\":\"standard-user\", \"password\":\"testing1\"}" };
