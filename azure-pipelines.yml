@@ -13,7 +13,7 @@ pr: none
 pool:
   vmImage: 'windows-latest'
 
-name: 6.0$(Rev:.r)
+name: 7.0$(Rev:.r)
 
 variables:
   - group: 'NuGetPublishing'

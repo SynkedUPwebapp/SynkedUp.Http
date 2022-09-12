@@ -109,6 +109,9 @@ And because the request and response model the HTTP request, it should be simple
 
 ## Version History
 
+### 7.0
+- Updated dependencies to .NET 6
+
 ### 6.0
 - Updated to netstandard2.1 to support the PATCH HTTP verb
 
