@@ -123,6 +123,10 @@ namespace Emmersion.Http
         private static async Task<HttpResponse> BuildResponse(HttpResponseMessage response)
         {
             if (response == null) throw new Exception("Unable to read web response");
+            if (response.Content.Headers.ContentType.CharSet == "utf8")
+            {
+                response.Content.Headers.ContentType.CharSet = "UTF-8";
+            }
 
             return new HttpResponse((int)response.StatusCode, GetResponseHeaders(response), await response.Content.ReadAsStringAsync());
         }
