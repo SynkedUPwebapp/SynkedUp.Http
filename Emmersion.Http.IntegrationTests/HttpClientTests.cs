@@ -290,12 +290,12 @@ namespace Emmersion.Http.IntegrationTests
         }
 
         [Test]
-        public void WhenTemporaryRedirectShouldNotBeFollowed()
+        public async Task WhenTemporaryRedirectShouldNotBeFollowed()
         {
             var request = new HttpRequest { Url = "https://httpbingo.org/redirect-to?url=https://example.com" };
             client = new HttpClient(new HttpClientOptions { AllowAutoRedirect = false });
 
-            var response = client.Execute(request);
+            var response = await client.ExecuteAsync(request);
 
             Assert.That(response.StatusCode, Is.EqualTo(expected: 302));
             Assert.That(response.Body, Is.Empty);
@@ -316,6 +316,21 @@ namespace Emmersion.Http.IntegrationTests
             response.Content.Read(bytes);
             var pngHeader = bytes.Take(8);
             Assert.That(pngHeader, Is.EqualTo(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }));
+        }
+
+        [Test]
+        public async Task WhenReceivingAResponseWithNonStandardCharset()
+        {
+            var request = new HttpRequest()
+            {
+                Method = HttpMethod.POST,
+                Url = "https://httpbin.org/response-headers?Content-Type=application/json;charset=utf8"
+            };
+
+            var response = await client.ExecuteAsync(request);
+
+            Assert.That(response.Body, Is.Not.Null);
+            Assert.That(response.Headers.GetValue("Content-Type"), Is.EqualTo("application/json; charset=UTF-8"));
         }
     }
 
